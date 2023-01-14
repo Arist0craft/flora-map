@@ -1,0 +1,121 @@
+.control {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 21.75rem;
+  height: 2.5rem;
+  border: 0px;
+  border-radius: 0.625rem;
+  padding: 0px;
+  background-color: white;
+  box-shadow: 0.3125rem 0.3125rem 0.625rem rgba(37, 47, 52, 0.14);
+  font-family: "Nunito";
+  font-size: 1.25rem;
+}
+
+.control.active {
+  color: white;
+}
+
+.control > img {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: 0.6125rem;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.control > span {
+  margin: auto;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.control.active > img {
+  visibility: hidden;
+  /* display: none; */
+}
+
+button[data-type="ware"].control.active {
+  background: #f84777;
+}
+
+button[data-type="city"].control.active {
+  background: #33cc99;
+}
+
+button[data-type="soon"].control.active {
+  background: #838383;
+}
+
+.map-hint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 43.75rem;
+  height: 8.125rem;
+  border-radius: 0px 0px 11.25rem 0px;
+  background-color: #33cc99;
+  font-family: "Nunito";
+  color: white;
+}
+
+.map-hint-header {
+  margin: 0px 0px 0.3125rem 10.5rem;
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+
+.map-hint-body {
+  margin: 0.3125rem 0px 0px 10.5rem;
+}
+
+.map-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 21.75rem;
+  border-radius: 0.625rem;
+  background-color: #ffffff;
+  box-shadow: 0.3125rem 0.3125rem 0.625rem rgba(37, 47, 52, 0.14);
+}
+
+.map-search > input {
+  flex-grow: 1;
+  height: 2.5rem;
+  border: 0px;
+  border-radius: inherit;
+  margin-right: 0.875rem;
+  padding: 0px;
+  font-family: "Nunito";
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.map-search > input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.map-search > input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  content: URL(../image/map_search_cross.svg);
+  cursor: pointer;
+ }
+
+.map-search > button {
+  width: 1.4375rem;
+  height: 1.4375rem;
+  border: 0px;
+  padding: 0px;
+  margin-left: 0.6125rem;
+  margin-right: 0.6125rem;
+  background-color: transparent;
+}
+
+.map-search > button > svg {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" style="height: 100%;">
+
+<head>
+  <meta charset="UTF-8">
+  <title>FloraTruck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
+  <link rel="stylesheet" href="css/map.css">
+  <script src="js/bundle.js" type="text/javascript"></script>
+</head>
+
+<body style="margin: 0px; min-height: 100%;">
+  <section id="map" class="section-map" style="height: 660px;">
+      <div class="map-hint">
+        <div class="map-hint-header">Выберите удобный склад</div>
+        <div class="map-hint-body">Нажмите на карту, чтобы начать</div>
+      </div>
+      <button class="control active" name="map_control" data-type="ware">
+        <img src="image/map_control_ware.svg">
+        <span>Наши склады</span>
+      </button>
+      <button class="control" name="map_control" data-type="city">
+        <img src="image/map_control_city.svg">
+        <span>Города постоянной доставки</span>
+      </button>
+      <button class="control" name="map_control" data-type="soon">
+        <img src="image/map_control_soon.svg">
+        <span>Скоро открытие</span>
+      </button> 
+      <div class="map-search">
+        <button>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M10.7579 0.333252C9.12719 0.333387 7.52015 0.711677 6.07085 1.43656C4.62156 2.16145 3.37205 3.21191 2.42656 4.5003C1.48108 5.78869 0.86704 7.27766 0.635678 8.84297C0.404315 10.4083 0.562336 12.0046 1.09656 13.4986C1.63078 14.9926 2.52571 16.3411 3.70669 17.4316C4.88766 18.522 6.32044 19.3228 7.88547 19.7671C9.45051 20.2114 11.1024 20.2863 12.7034 19.9857C14.3044 19.685 15.808 19.0174 17.0888 18.0386L21.4826 22.2992C21.7095 22.5118 22.0134 22.6294 22.3289 22.6267C22.6443 22.624 22.9461 22.5013 23.1691 22.285C23.3922 22.0687 23.5187 21.7761 23.5215 21.4702C23.5242 21.1643 23.403 20.8696 23.1838 20.6496L18.79 16.3889C19.9787 14.9266 20.7188 13.1694 20.9256 11.3183C21.1325 9.46714 20.7978 7.59694 19.9597 5.92169C19.1216 4.24645 17.8141 2.83383 16.1868 1.84552C14.5595 0.857209 12.6781 0.333127 10.7579 0.333252ZM2.93761 10.2499C2.93761 8.23869 3.76153 6.30984 5.22812 4.88769C6.69472 3.46554 8.68384 2.66659 10.7579 2.66659C12.832 2.66659 14.8211 3.46554 16.2877 4.88769C17.7543 6.30984 18.5782 8.23869 18.5782 10.2499C18.5782 12.2611 17.7543 14.19 16.2877 15.6121C14.8211 17.0343 12.832 17.8333 10.7579 17.8333C8.68384 17.8333 6.69472 17.0343 5.22812 15.6121C3.76153 14.19 2.93761 12.2611 2.93761 10.2499Z" fill="#242424"/>
+          </svg>
+        </button>
+        <input id="map-suggest" type="search" placeholder="{{ options.placeholderContent }}">
+      </div>
+
+  </section>
+</body>
+
+</html>
