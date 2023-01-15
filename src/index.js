@@ -93,7 +93,6 @@ function initYandexMapsCallback() {
 
   // Устанавливаем своё управление поиском
   myMap.controls.add(getMySearchControl(data), { float: "right" });
-  console.log(myMap);
 }
 
 

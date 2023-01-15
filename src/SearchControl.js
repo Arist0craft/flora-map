@@ -20,31 +20,43 @@ function buildSearсhLayout() {
     </div>
     `,
     {
+      /**
+       * Создание инстанса шаблона поиска по карте
+       */
       build: function () {
         SearchLayout.superclass.build.call(this);
         this._elements = {
           input: this._getElement("map-search-input"),
           button: this._getElement("map-search-button"),
         };
-
-        // Добавляем прослушивание событий на наши элементы
-        // this._createElementListeners();
-        // Добавляем поисковые подсказки к нашему полю ввода
         const data = this.getData(),
           state = data.state
 
-        // Добавляем элемент поля ввода в расшаренное состояние
-        // Это позволит забирать поисковый запрос на событии formsubmit
+        // Добавляем элемент поля ввода в состояние
+        // Это позволит обращ
         state.set({ formInput: this._elements.input });
 
         // Создаём панель поисковых подсказок
         this._createSuggestView();
+
+        // Добавляем прослушивание событий на наши элементы
+        this._createElementListeners();
+
       },
+
+      /**
+       * Поиск DOM элемента по его id
+       * @param {string} id id DOM элемента
+       * @returns DOM элемент
+       */
       _getElement: function (id) {
         return document.getElementById(id);
       },
+
+      /**
+       * Добавление прослушивания событий к элементам формы поиска
+       */
       _createElementListeners: function () {
-        // Добавление прослушивания событий на элементы формы
         const e = this._elements;
         this._elementListeners = {
           input: domEventManager.group(e.input),
@@ -52,57 +64,60 @@ function buildSearсhLayout() {
         };
         this._elementListeners.input
           .add("keypress", this._onInputKeyPress, this)
-          .add("keyup", this._onInputKeyUp, this);
-        this._elementListeners.button.add("click", this._onButtonClick, this);
+          .add("search", this._onClearInput, this);
+        this._elementListeners.button.add("click", this._handleRequest, this);
+
+        this._suggestViewListeners = this._suggestView.events
+          .group()
+          .add("select", this._handleRequest, this);
       },
+
+      /**
+       * Обработчик ввода символов в поле поиска
+       * @param {Event} domEvent Событие ввода символа в поле поиска
+       */
       _onInputKeyPress: function (domEvent) {
-        /*
-        / Проверка, если вводимый символ клавиша Enter,
-        / т.е отправка поискового запроса
-        */
-        if ("13" == domEvent.get("charCode") || "13" == domEvent.get("keyCode"))
-          return (
-            this._formSubmit(),
-            (domEvent.originalEvent.cancelBubble = !0),
-            (domEvent.originalEvent.returnValue = !1),
-            domEvent.originalEvent.preventDefault &&
-              domEvent.originalEvent.preventDefault(),
-            !1
-          );
+        // Если клавиша enter - обрабатываем запрос
+        if ("13" == domEvent.get("charCode") || "13" == domEvent.get("keyCode")) {
+          this._handleRequest();
+        }
       },
 
-      _onInputKeyUp: function (domEvent) {
-        /*
-         * Помещаем в состояние значение поля ввода
-         */
-        console.log("ahaha");
-        this.getData().state.set("inputValue", this._elements.input.value);
+      /**
+       * Обработчик очистки поискового поля
+       * @param {Event} domEvent Событие ввода символа в поле поиска
+       */
+      _onClearInput: function (domEvent) {
+        const searchRequest = domEvent.get("target").value;
+        if (!searchRequest) {
+          this.events.fire("dataclear");
+        } 
       },
 
-      _onButtonClick: function (domEvent) {
-        // Клик на кнопку поискового запроса инициирует поиск
-        this._formSubmit();
-      },
-
-      _formSubmit: function () {
-        // Отправка поискового запроса
-        this.events.fire("formsubmit");
-      },
+      /**
+       * Создание панели поисковых подсказок
+       */
       _createSuggestView: function () {
         const d = this.getData(),
               input = this._elements.input;
-        return input ? (this._suggestView = new ymaps.SuggestView(input, {
-          provider: d.options.get("provider"),
-          results: d.options.get("results"),
-        })) : console.error("Can't create SuggestView");
-        // if (input) {
-        //   this._suggestView = new ymaps.SuggestView(input, {
-        //     provider: d.options.get("provider"),
-        //     results: d.options.get("results"),
-        //   });
-        // } else {
-        //   console.error("Can't create SuggestView");
-        // }
+        if (input) {
+          this._suggestView = new ymaps.SuggestView(input, {
+            provider: d.options.get("provider"),
+            results: d.options.get("results"),
+          })
+        } else {
+          console.error("Can't create SuggestView without input");
+        }
+      },
+
+      /**
+       * Обработка поискового запроса, старт поиска
+       */
+      _handleRequest: function () {
+        const searchRequest = this._elements.input.value;
+        if (searchRequest) {
+          this.events.fire("search", {request: searchRequest});
+        }
       },
     }
   );
@@ -117,7 +132,6 @@ function buildSearсhLayout() {
  */
 export default function getMySearchControl(geoPoints) {
   // Создаем экземпляр класса ymaps.control.SearchControl
-  window.providerMy = new SearchProvider(geoPoints);
   const mySearchControl = new ymaps.control.SearchControl({
     options: {
       // Заменяем стандартный провайдер данных (геокодер) нашим собственным.
@@ -150,6 +164,8 @@ export default function getMySearchControl(geoPoints) {
     if (mySearchControl.prevCenter && mySearchControl.prevZoom) {
       const myMap = mySearchControl.getMap();
       myMap.setCenter(mySearchControl.prevCenter, mySearchControl.prevZoom);
+      mySearchControl.prevCenter = undefined;
+      mySearchControl.prevZoom = undefined;
     }
   });
 
