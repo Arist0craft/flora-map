@@ -3,7 +3,7 @@
 // Реализует интерфейс IGeocodeProvider.
 
 /** Кастомный класс геокодера */
-class SearchProvider {
+export default class SearchProvider {
   constructor(geoPoints) {
     // Геоколлекция, по которой происходит поиск
     this.geoPoints = geoPoints;
@@ -43,6 +43,7 @@ class SearchProvider {
           pochta: p.pochta,
           wh: p.wh,
           boundedBy: [p.coords, p.coords],
+          type: p.type,
         })
       );
     }
@@ -93,5 +94,3 @@ class SearchProvider {
     return deferred.promise();
   }
 }
-
-export default SearchProvider
