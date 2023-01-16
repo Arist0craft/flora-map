@@ -55,7 +55,7 @@
           balloonOffset: [-5, -5],
           hideIconOnBalloonOpen: false,
           iconLayout: "default#image",
-          iconImageHref: "image/map_marker.svg",
+          iconImageHref: `image/map_marker_${p.type}.svg`,
         }
       )
     );

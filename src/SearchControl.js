@@ -1,3 +1,4 @@
+import ButtonController from "./ButtonController";
 import SearchProvider from "./SearchProvider";
 
 /**
@@ -127,15 +128,15 @@ function buildSearсhLayout() {
 
 /**
  * Создание  кастомного управления поиском
- * @param {Point[]} geoPoints - Массив точек для поисковой выдачи
+ * @param {ButtonController} buttonController - Массив точек для поисковой выдачи
  * @returns {ymaps.control.SearchControl} Кастомное управление поиском
  */
-export default function getMySearchControl(geoPoints) {
+export default function getMySearchControl(buttonController) {
   // Создаем экземпляр класса ymaps.control.SearchControl
   const mySearchControl = new ymaps.control.SearchControl({
     options: {
       // Заменяем стандартный провайдер данных (геокодер) нашим собственным.
-      provider: new SearchProvider(geoPoints),
+      provider: new SearchProvider(buttonController),
       // Не будем показывать еще одну метку при выборе результата поиска,
       // т.к. метки коллекции myCollection уже добавлены на карту.
       noPlacemark: true,

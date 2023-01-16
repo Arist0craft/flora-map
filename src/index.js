@@ -1,10 +1,12 @@
 import getMySearchControl from "./SearchControl"
-import getMapMarkers from "./Markers"
+import { ButtonController, addMapControls } from "./ButtonController"
 
 /**
  * Инициализация Яндекс.Карт
  */
 function initYandexMapsCallback() {
+
+
   // Создаём объект карты
   const myMap = new ymaps.Map("map", {
     center: [55.7, 54.5],
@@ -12,13 +14,16 @@ function initYandexMapsCallback() {
     controls: ["zoomControl"],
   });
 
-  const geoOjectCollections = getMapMarkers(window.mapPointsData);
 
-  // Размещаем метки на карте
-  myMap.geoObjects.add(geoOjectCollections["warehouse"]);
+  // Задаём управление фильтрами
+  const buttonController = new ButtonController(myMap);
+  addMapControls(buttonController);
 
   // Устанавливаем своё управление поиском
-  myMap.controls.add(getMySearchControl(geoOjectCollections["warehouse"]), { float: "right" });
+  myMap.controls.add(
+    getMySearchControl(buttonController),
+    { float: "right" }
+  );
 }
 
 
@@ -38,24 +43,7 @@ function initYmaps() {
 }
 
 
-/**
- * Добавление управления кнопкам карты
- */
-function addMapControls() {
-  let controlButtons = document.querySelectorAll("button[name='map_control']");
-  for (const button of controlButtons) {
-    button.addEventListener("click", function (e) {
-      Array.prototype.map.call(controlButtons, (b) =>
-        b.classList.remove("active")
-      );
-      e.target.classList.add("active");
-    });
-  }
-}
-
-
 function main() {
-  addMapControls();
   initYmaps();
 }
 

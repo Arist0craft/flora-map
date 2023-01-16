@@ -2,11 +2,19 @@
 // Осуществляет поиск геообъектов в по массиву points.
 // Реализует интерфейс IGeocodeProvider.
 
+import ButtonController from "./ButtonController";
+
 /** Кастомный класс геокодера */
 export default class SearchProvider {
-  constructor(geoPoints) {
+
+  /**
+   * Конструктор поискового провайдера
+   * @param {ButtonController} buttonController Контроллер управления кнопками фильтров
+   */
+  constructor(buttonController) {
     // Геоколлекция, по которой происходит поиск
-    this.geoPoints = geoPoints;
+    this._buttonController = buttonController;
+    this._markersCollections = buttonController.getMarkersCollections();
   }
 
   /**
@@ -20,33 +28,26 @@ export default class SearchProvider {
       // Сколько результатов нужно пропустить.
       offset = options.skip || 0,
       // Количество возвращаемых результатов.
-      limit = options.results || 20;
+      limit = options.results || 20,
+      currentMarkersType = this._buttonController.getActiveType(),
+      currentMarkersCollection = this._markersCollections[currentMarkersType];
 
     // Формируем поисковую выдачу по вхождению текста в название точки
-    let resultPoints = [];
-    for (const p of this.geoPoints) {
-      if (p.name.toLowerCase().indexOf(request.toLowerCase()) != -1) {
-        resultPoints.push(p);
+    let geoObjects = new ymaps.GeoObjectCollection();
+
+    for (const marker of currentMarkersCollection.toArray()) {
+      const markerName = marker.properties.get("name"),
+        coords = marker.geometry.getCoordinates(),
+        properties = {
+          boundedBy: [coords, coords]
+        };
+
+      if (markerName.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+        geoObjects.add(new ymaps.Placemark(coords, properties));
       }
     }
     // При формировании ответа можно учитывать offset и limit.
-    resultPoints = resultPoints.splice(offset, limit);
-
-    const geoObjects = new ymaps.GeoObjectCollection();
-    // Добавляем точки в результирующую коллекцию.
-    for (const p of resultPoints) {
-      geoObjects.add(
-        new ymaps.Placemark(p.coords, {
-          name: p.name,
-          address: p.address,
-          phone: p.phone,
-          pochta: p.pochta,
-          wh: p.wh,
-          boundedBy: [p.coords, p.coords],
-          type: p.type,
-        })
-      );
-    }
+    geoObjects = geoObjects.splice(offset, limit);
 
     deferred.resolve({
       // Геообъекты поисковой выдачи.
@@ -78,13 +79,18 @@ export default class SearchProvider {
    */
   suggest(request, options) {
     const deferred = new ymaps.vow.defer(),
-      resultArray = [];
-    for (let i = 0; i < this.geoPoints.length; i++) {
-      const geoPoint = this.geoPoints[i];
-      if (geoPoint.name.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+      resultArray = [],
+      currentMarkersType = this._buttonController.getActiveType(),
+      currentMarkersCollection = this._markersCollections[currentMarkersType];
+
+    for (let i = 0; i < currentMarkersCollection.getLength(); i++) {
+      const marker = currentMarkersCollection.get(i),
+        markerName = marker.properties.get("name");
+
+      if (markerName.toLowerCase().indexOf(request.toLowerCase()) != -1) {
         resultArray.push({
-          displayName: geoPoint.name,
-          value: geoPoint.name,
+          displayName: markerName,
+          value: markerName,
         });
       }
     }
