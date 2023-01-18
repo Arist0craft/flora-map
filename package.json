@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack-build-dev": "webpack --mode=development",
-    "webpack-build": "webpack --mode=production",
-    "sass-build": "sass",
+    "webpack-build-dev": "webpack build --devtool=souce-map --mode=development",
+    "webpack-build": "webpack build --mode=production",
+    "sass-build": "sass --no-source-map src/css:dist/css",
     "sass-watch": "sass  --source-map --watch  src/css:dist/css"
   },
   "keywords": [],
