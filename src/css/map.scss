@@ -1,22 +1,8 @@
-$desktopMax: 1023px;
-$desktopMin: 1024px;
-$tapletMax: 1023px;
-$tabletMin: 768px;
 $mobileMaxWidth: 767px;
 
+$desktopCoeff: calc(100vw / 1440px);
 $mobileCoeff: calc(100vw / 390px);
 
-@mixin desktop {
-  @media (min-width: $desktopMin) and (max-width: $desktopMax) {
-    @content;
-  }
-}
-
-@mixin tablet {
-  @media (min-width: $tabletMin) and (max-width: $tapletMax){
-    @content;
-  }
-}
 
 @mixin mobile{
   @media (max-width: $mobileMaxWidth) {
@@ -24,20 +10,22 @@ $mobileCoeff: calc(100vw / 390px);
   }
 }
 
-
+[class*=copyright] {
+  display: none;
+}
 
 .section-map {
   display: grid;
   grid-template-columns: 48% 1fr;
-  grid-template-rows: 130px 1fr 90px;
+  grid-template-rows: calc(130px * $desktopCoeff) 1fr calc(90px * $desktopCoeff);
 
   width: 100vw;
-  height: 660px;
+  height: calc(660px * $desktopCoeff);
 
   @include mobile {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr calc(170px * $mobileCoeff);
-    height: calc(590px * $mobileCoeff);
+    height: calc(500px * $mobileCoeff);
   }
 }
 
@@ -47,7 +35,7 @@ $mobileCoeff: calc(100vw / 390px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: 0px 0px 12.5vw 0px;
+  border-radius: 0px 0px calc(180px * $desktopCoeff) 0px;
   background-color: #33cc99;
   font-family: "Nunito";
   color: white;
@@ -58,13 +46,14 @@ $mobileCoeff: calc(100vw / 390px);
 }
 
 .map-hint-header {
-  margin: 0px 0px 5px 168px;
-  font-size: 36px;
+  margin: 0px 0px calc(5px * $desktopCoeff) calc(168px * $desktopCoeff);
+  font-size: calc(36px * $desktopCoeff);
   font-weight: 600;
 }
 
 .map-hint-body {
-  margin: 5px 0px 0px 168px;
+  margin: calc(5px * $desktopCoeff) 0px 0px calc(168px * $desktopCoeff);
+  font-size: calc(20px * $desktopCoeff);
 }
 
 .map-container {
@@ -76,11 +65,11 @@ $mobileCoeff: calc(100vw / 390px);
 }
 
 .map-control-base {
-  width: 348px;
-  height: 40px;
+  width: calc(348px * $desktopCoeff);
+  height: calc(40px * $desktopCoeff);
   border: 0px;
-  border-radius: 10px;
-  box-shadow: 5px 5px 10px rgba(37, 47, 52, 0.14);
+  border-radius: calc(10px * $desktopCoeff);
+  box-shadow: calc(5px * $desktopCoeff) calc(5px * $desktopCoeff) calc(10px * $desktopCoeff) rgba(37, 47, 52, 0.14);
 
   @include mobile {
     width: calc(330px * $mobileCoeff);
@@ -117,11 +106,11 @@ $mobileCoeff: calc(100vw / 390px);
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  margin: 15px;
+  margin: calc(15px * $desktopCoeff);
   padding: 0px;
   background-color: white;
   font-family: "Nunito";
-  font-size: 20px;
+  font-size: calc(20px * $desktopCoeff);
 
   @include mobile {
     margin: 0px;
@@ -136,9 +125,9 @@ $mobileCoeff: calc(100vw / 390px);
 }
 
 .control > img {
-  width: 20px;
-  height: 20px;
-  margin-left: 10px;
+  width: calc(20px * $desktopCoeff);
+  height: calc(20px * $desktopCoeff);
+  margin-left: calc(10px * $desktopCoeff);
   cursor: pointer;
   pointer-events: none;
 
@@ -200,10 +189,10 @@ button[data-type="soon"].control.active {
   height: 100%;
   border: 0px;
   border-radius: inherit;
-  margin-right: 14px;
+  margin-right: calc(14px * $desktopCoeff);
   padding: 0px;
   font-family: "Nunito";
-  font-size: 20px;
+  font-size: calc(20px * $desktopCoeff);
   font-weight: 300;
 
   @include mobile {
@@ -229,12 +218,12 @@ button[data-type="soon"].control.active {
  }
 
 .map-search > button {
-  width: 23px;
-  height: 23px;
+  width: calc(23px * $desktopCoeff);
+  height: calc(23px * $desktopCoeff);
   border: 0px;
   padding: 0px;
-  margin-left: 9px;
-  margin-right: 9px;
+  margin-left: calc(9px * $desktopCoeff);
+  margin-right: calc(9px * $desktopCoeff);
   background-color: transparent;
 
   @include mobile {
@@ -251,6 +240,7 @@ button[data-type="soon"].control.active {
   cursor: pointer;
 }
 
+// Балуны меток трогать по минимуму, т.к. размер регулируется картами
 .map-baloon {
   display: flex;
   flex-direction: column;
