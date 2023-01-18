@@ -34,7 +34,6 @@ function initYandexMapsCallback() {
     }
   }));
 
-  const mobileSearch = new ymaps.SuggestView()
 }
 
 
