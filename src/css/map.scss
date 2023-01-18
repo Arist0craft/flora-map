@@ -4,6 +4,7 @@ $tapletMax: 1023px;
 $tabletMin: 768px;
 $mobileMaxWidth: 767px;
 
+$mobileCoeff: calc(100vw / 390px);
 
 @mixin desktop {
   @media (min-width: $desktopMin) and (max-width: $desktopMax) {
@@ -35,8 +36,8 @@ $mobileMaxWidth: 767px;
 
   @include mobile {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 170px;
-    height: 590px;
+    grid-template-rows: 1fr calc(170px * $mobileCoeff);
+    height: calc(590px * $mobileCoeff);
   }
 }
 
@@ -82,9 +83,11 @@ $mobileMaxWidth: 767px;
   box-shadow: 5px 5px 10px rgba(37, 47, 52, 0.14);
 
   @include mobile {
-    width: 330px;
-    height: 30px;
-    border-radius: 133px;
+    width: calc(330px * $mobileCoeff);
+    height: calc(30px * $mobileCoeff);
+    border-radius: calc(133px * $mobileCoeff);
+    box-shadow: none;
+
   }
 }
 
@@ -101,8 +104,8 @@ $mobileMaxWidth: 767px;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    // padding-top: calc(15px * $mobileCoeff);
+    // padding-bottom: calc(15px * $mobileCoeff);
     background-color: #462D71;
   }
 }
@@ -122,7 +125,7 @@ $mobileMaxWidth: 767px;
 
   @include mobile {
     margin: 0px;
-    font-size: 17px;
+    font-size: calc(17px * $mobileCoeff);
     font-weight: 700;
   }
 
@@ -140,9 +143,9 @@ $mobileMaxWidth: 767px;
   pointer-events: none;
 
   @include mobile {
-    width: 14px;
-    height: 14px;
-    margin-left: 8px;
+    width: calc(14px * $mobileCoeff);
+    height: calc(14px * $mobileCoeff);
+    margin-left: calc(8px * $mobileCoeff);
   }
 }
 
@@ -202,6 +205,10 @@ button[data-type="soon"].control.active {
   font-family: "Nunito";
   font-size: 20px;
   font-weight: 300;
+
+  @include mobile {
+    font-size: calc(17px * $mobileCoeff);
+  }
 }
 
 .map-search > input::placeholder {
@@ -231,10 +238,10 @@ button[data-type="soon"].control.active {
   background-color: transparent;
 
   @include mobile {
-    width: 12px;
-    height: 12px;
-    margin-left: 10px;
-    margin-right: 10px;
+    width: calc(12px * $mobileCoeff);
+    height: calc(12px * $mobileCoeff);
+    margin-left: calc(10px * $mobileCoeff);
+    margin-right: calc(10px * $mobileCoeff);
   }
 }
 
