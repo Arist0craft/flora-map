@@ -11,24 +11,26 @@
 </head>
 
 <body style="margin: 0px; min-height: 100%;">
-  <section id="map" class="section-map" style="height: 660px;">
-  <!-- <section class="section-map" style="height: 660px;"> -->
+  <section class="section-map">
       <div class="map-hint">
         <div class="map-hint-header">Выберите удобный склад</div>
         <div class="map-hint-body">Нажмите на карту, чтобы начать</div>
       </div>
-      <button class="control active" name="map_control" data-type="warehouse">
-        <img src="image/map_control_ware.svg">
-        <span>Наши склады</span>
-      </button>
-      <button class="control" name="map_control" data-type="city">
-        <img src="image/map_control_city.svg">
-        <span>Города постоянной доставки</span>
-      </button>
-      <button class="control" name="map_control" data-type="soon">
-        <img src="image/map_control_soon.svg">
-        <span>Скоро открытие</span>
-      </button> 
+      <div id="map" class="map-container"></div>
+      <div class="map-controls">
+        <button class="control active" name="map_control" data-type="warehouse">
+          <img src="image/map_control_ware.svg">
+          <span>Наши склады</span>
+        </button>
+        <button class="control" name="map_control" data-type="city">
+          <img src="image/map_control_city.svg">
+          <span>Города постоянной доставки</span>
+        </button>
+        <button class="control" name="map_control" data-type="soon">
+          <img src="image/map_control_soon.svg">
+          <span>Скоро открытие</span>
+        </button> 
+      </div>
       
       <!-- <div class="map-search">
         <button>

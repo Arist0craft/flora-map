@@ -11,7 +11,7 @@ function initYandexMapsCallback() {
   const myMap = new ymaps.Map("map", {
     center: [55.7, 54.5],
     zoom: 5,
-    controls: ["zoomControl"],
+    controls: [],
   });
 
 
@@ -24,6 +24,17 @@ function initYandexMapsCallback() {
     getMySearchControl(buttonController),
     { float: "right" }
   );
+
+  myMap.controls.add(new ymaps.control.ZoomControl({
+    options: {
+      position: {
+        top: 108,
+        right: 10
+      }
+    }
+  }));
+
+  const mobileSearch = new ymaps.SuggestView()
 }
 
 
@@ -40,6 +51,7 @@ function initYmaps() {
     ymaps.ready(initYandexMapsCallback);
   });
   document.head.appendChild(ymapsScript);
+  console.log(1);
 }
 
 

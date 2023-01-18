@@ -5,13 +5,16 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-dev": "webpack --mode=development",
-    "build": "webpack --mode=production"
+    "webpack-build-dev": "webpack --mode=development",
+    "webpack-build": "webpack --mode=production",
+    "sass-build": "sass",
+    "sass-watch": "sass  --source-map --watch  src/css:dist/css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "sass": "^1.57.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   }

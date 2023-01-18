@@ -1,12 +1,39 @@
+$desktopMax: 1023px;
+$desktopMin: 1024px;
+$tapletMax: 1023px;
+$tabletMin: 768px;
+$mobileMaxWidth: 767px;
+
+
+@mixin desktop {
+  @media (min-width: $desktopMin) and (max-width: $desktopMax) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $tabletMin) and (max-width: $tapletMax){
+    @content;
+  }
+}
+
+@mixin mobile{
+  @media (max-width: $mobileMaxWidth) {
+    @content;
+  }
+}
+
+
+
 .section-map {
   display: grid;
   grid-template-columns: 48% 1fr;
   grid-template-rows: 130px 1fr 90px;
+
   width: 100vw;
   height: 660px;
-}
-@media (max-width: 767px) {
-  .section-map {
+
+  @include mobile {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 170px;
     height: 590px;
@@ -14,7 +41,7 @@
 }
 
 .map-hint {
-  grid-area: 1/1/2/2;
+  grid-area: 1 / 1 / 2 / 2;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -23,9 +50,8 @@
   background-color: #33cc99;
   font-family: "Nunito";
   color: white;
-}
-@media (max-width: 767px) {
-  .map-hint {
+
+  @include mobile {
     display: none;
   }
 }
@@ -41,23 +67,21 @@
 }
 
 .map-container {
-  grid-area: 1/1/4/3;
-}
-@media (max-width: 767px) {
-  .map-container {
-    grid-area: 1/1/2/2;
+  grid-area: 1 / 1 / 4 / 3;
+
+  @include mobile {
+    grid-area: 1 / 1 / 2 / 2;
   }
 }
 
-.map-control-base, .map-search, .control {
+.map-control-base {
   width: 348px;
   height: 40px;
   border: 0px;
   border-radius: 10px;
   box-shadow: 5px 5px 10px rgba(37, 47, 52, 0.14);
-}
-@media (max-width: 767px) {
-  .map-control-base, .map-search, .control {
+
+  @include mobile {
     width: 330px;
     height: 30px;
     border-radius: 133px;
@@ -65,16 +89,15 @@
 }
 
 .map-controls {
-  grid-area: 3/1/4/3;
+  grid-area: 3 / 1 / 4 / 3;
   z-index: 1;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: start;
-}
-@media (max-width: 767px) {
-  .map-controls {
-    grid-area: 2/1/3/2;
+
+  @include mobile {
+    grid-area: 2 / 1 / 3 / 2;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
@@ -85,6 +108,8 @@
 }
 
 .control {
+  @extend .map-control-base;
+
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -94,13 +119,13 @@
   background-color: white;
   font-family: "Nunito";
   font-size: 20px;
-}
-@media (max-width: 767px) {
-  .control {
+
+  @include mobile {
     margin: 0px;
     font-size: 17px;
     font-weight: 700;
   }
+
 }
 
 .control.active {
@@ -113,9 +138,8 @@
   margin-left: 10px;
   cursor: pointer;
   pointer-events: none;
-}
-@media (max-width: 767px) {
-  .control > img {
+
+  @include mobile {
     width: 14px;
     height: 14px;
     margin-left: 8px;
@@ -132,24 +156,41 @@
   visibility: hidden;
 }
 
-button[data-type=warehouse].control.active {
+button[data-type="warehouse"].control.active {
   background: #f84777;
 }
 
-button[data-type=city].control.active {
+button[data-type="city"].control.active {
   background: #33cc99;
 }
 
-button[data-type=soon].control.active {
+button[data-type="soon"].control.active {
   background: #838383;
 }
 
 .map-search {
+  @extend .map-control-base;
+
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: #ffffff;
+
 }
+
+// .map-search.desktop {
+//   @include mobile {
+//     display: none !important;
+//   }
+// }
+
+// .map-search.mobile {
+//   display: none;
+
+//   @include mobile {
+//     display: flex;
+//   }
+// }
 
 .map-search > input {
   flex-grow: 1;
@@ -163,8 +204,8 @@ button[data-type=soon].control.active {
   font-weight: 300;
 }
 
-@media (max-width: 767px) {
-  .map-search > input::placeholder {
+.map-search > input::placeholder {
+  @include mobile {
     text-align: center;
   }
 }
@@ -176,9 +217,9 @@ button[data-type=soon].control.active {
 
 .map-search > input::-webkit-search-cancel-button {
   -webkit-appearance: none;
-  content: url(../image/map_search_cross.svg);
+  content: URL(../image/map_search_cross.svg);
   cursor: pointer;
-}
+ }
 
 .map-search > button {
   width: 23px;
@@ -188,9 +229,8 @@ button[data-type=soon].control.active {
   margin-left: 9px;
   margin-right: 9px;
   background-color: transparent;
-}
-@media (max-width: 767px) {
-  .map-search > button {
+
+  @include mobile {
     width: 12px;
     height: 12px;
     margin-left: 10px;
@@ -224,15 +264,15 @@ button[data-type=soon].control.active {
   font-size: 6px;
 }
 
-[data-type=warehouse].map-baloon > .map-baloon-header {
+[data-type="warehouse"].map-baloon > .map-baloon-header {
   background-color: #f84777;
 }
 
-[data-type=city].map-baloon > .map-baloon-header {
+[data-type="city"].map-baloon > .map-baloon-header {
   background-color: #33cc99;
 }
 
-[data-type=soon].map-baloon > .map-baloon-header {
+[data-type="soon"].map-baloon > .map-baloon-header {
   background-color: #838383;
 }
 
@@ -286,5 +326,3 @@ button[data-type=soon].control.active {
 .map-baloon-body-time {
   font-size: 8px;
 }
-
-/*# sourceMappingURL=map.css.map */
