@@ -9,7 +9,7 @@ function initYandexMapsCallback() {
 
   // Создаём объект карты
   const myMap = new ymaps.Map("map", {
-    center: [55.7, 54.5],
+    center: [55.7, 37.6],
     zoom: 5,
     controls: [],
   });
