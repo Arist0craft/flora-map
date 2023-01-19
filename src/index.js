@@ -50,7 +50,6 @@ function initYmaps() {
     ymaps.ready(initYandexMapsCallback);
   });
   document.head.appendChild(ymapsScript);
-  console.log(1);
 }
 
 

@@ -268,21 +268,21 @@ button[data-type="soon"].control.active {
 .map-baloon {
   display: flex;
   flex-direction: column;
-  width: 108px;
-  height: 128px;
+  width: 216px;
+  height: 256px;
   background-color: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
   font-family: "Nunito";
 }
 
 .map-baloon-header {
-  margin-left: 28px;
-  border-radius: 0px 10px 0px 10px;
+  margin-left: 56px;
+  border-radius: 0px 20px 0px 20px;
   text-align: center;
   color: white;
-  font-weight: 600;
-  font-size: 6px;
+  font-weight: 700;
+  font-size: 12px;
 }
 
 [data-type="warehouse"].map-baloon > .map-baloon-header {
@@ -302,17 +302,17 @@ button[data-type="soon"].control.active {
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
-  margin: 10px;
+  margin: 20px;
 }
 
 .map-baloon-body-h1 {
   color: #462D71;
-  font-size: 12px;
+  font-size: 24px;
   font-weight: 700;
 }
 
 .map-baloon-body-address {
-  font-size: 6px;
+  font-size: 12px;
 }
 
 .map-baloon-body-link {
@@ -320,13 +320,13 @@ button[data-type="soon"].control.active {
   flex-direction: row;
   align-items: center;
   color: #462D71;
-  font-size: 8px;
+  font-size: 16px;
 }
 
 .map-baloon-body-link > svg {
-  width: 8px;
-  height: 8px;
-  margin-right: 6px;
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
 }
 
 .map-baloon-body-link > a:link {
@@ -340,10 +340,10 @@ button[data-type="soon"].control.active {
 
 .map-baloon-body-days {
   color: #242424;
-  font-size: 8px;
+  font-size: 16px;
   font-weight: 600;
 }
 
 .map-baloon-body-time {
-  font-size: 8px;
+  font-size: 16px;
 }

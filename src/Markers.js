@@ -27,7 +27,7 @@
       <div class="map-baloon-body-days">{{ properties.workingDays }}</div>
       <div class="map-baloon-body-time">{{ properties.workingHours }}</div>
     </div>
-  </div>
+    </div>
     `
   );
 
@@ -53,6 +53,7 @@
         {
           balloonLayout: BallonLayout,
           balloonOffset: [-5, -5],
+          balloonPanelMaxMapArea: 0,
           hideIconOnBalloonOpen: false,
           iconLayout: "default#image",
           iconImageHref: `image/map_marker_${p.type}.svg`,
