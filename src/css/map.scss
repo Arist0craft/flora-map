@@ -19,7 +19,7 @@ $mobileCoeff: calc(100vw / 390px);
   grid-template-columns: 48% 1fr;
   grid-template-rows: calc(130px * $desktopCoeff) 1fr calc(90px * $desktopCoeff);
 
-  width: 100vw;
+  width: 100%;
   height: calc(660px * $desktopCoeff);
 
   @include mobile {
