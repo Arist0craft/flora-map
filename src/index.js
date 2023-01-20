@@ -19,7 +19,7 @@ function controlMapMobileScrolling(mapSection, map) {
   function onClickMapScrollEnable(e){
     if (!map.behaviors.isEnabled("scrollZoom")) {
       map.behaviors.enable("scrollZoom");
-
+      map.behaviors.enable("drag");
     }
   }
 
@@ -33,6 +33,8 @@ function controlMapMobileScrolling(mapSection, map) {
       && map.behaviors.isEnabled("scrollZoom")
       ) {
       map.behaviors.disable("scrollZoom");
+      map.behaviors.disable("drag");
+
     }
   }
 
