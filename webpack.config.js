@@ -7,4 +7,9 @@ module.exports = {
     "filename": "map.js",
     "path": path.resolve(__dirname, "dist/js"),
   },
+  "devServer": {
+    "port": 5000,
+    "allowedHosts": "all",
+    "static": path.resolve(__dirname, "dist")
+  }
 };
