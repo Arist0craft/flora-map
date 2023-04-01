@@ -6,11 +6,12 @@ export default class ScrollControl {
    */
   constructor(mapSection, map) {
     this._map = map;
-    this._isScrolling = false;
     this._scrollingEndCallback = undefined;
     this._isScrollButtonPressed = false;
+    this._isToucheMoved = false;
     this._mapSection = mapSection;
     this._infoElement = this._mapSection.querySelector(".map-scroll-info");
+    this._infoElementVisible = false;
     const infoTextElement = this._infoElement.querySelector(".map-scroll-info-text");
 
     this._isTouchDevice = (('ontouchstart' in window) ||
@@ -67,11 +68,13 @@ export default class ScrollControl {
     const timeOutCallback = function() {
       if(this._infoElement.style.opacity == 1) {
         this._infoElement.style.opacity = 0;
+        this._infoElementVisible = false;
       }
     }
 
     window.clearTimeout(this._scrollingEndCallback);
-    if(this._mapSection.matches(":hover") && !this._isScrollButtonPressed) {
+    if(this._mapSection.matches(":hover") && !this._isScrollButtonPressed && !this._infoElementVisible) {
+      this._infoElementVisible = true;
       this._infoElement.style.opacity = 1;
       this._infoElement.style.transitionDuration = "0.3s";
       this._scrollingEndCallback = setTimeout(timeOutCallback.bind(this), 1000);
@@ -89,90 +92,65 @@ export default class ScrollControl {
   }
 
 
+  /**
+  * При таче на карту / элементы управления включаем драг карты
+  * @param {Event} e Событие на начало тача
+  */
+  _onTouchStartMap(e) {
+    if (e.touches.length > 1) {
+      this._map._isTouched = false;
+      return;
+    }
+    this._map._isTouched = true;
+  }
+
+  /**
+   * Если тач карты был с движением, пример скролл страницы, то ставим флаг и 
+   * показываем шторку
+   * @param {Event} e Событие движения при таче
+   */
+  _onTouchMoveMap(e) {
+    if (e.touches.length > 1 || e.changedTouches.length > 1) {
+      return;
+    }
+    if(this._map._isTouched && !this._infoElementVisible) {
+      this._infoElementVisible = true;
+      this._infoElement.style.opacity = 1;
+      this._infoElement.style.transitionDuration = "0.3s";
+    }
+  }
+
+  /**
+   * Если тач карты был с движением, то отменяем флаг
+   * @param {Event} e Событие движения при таче
+   */
+  _onTouchEndMap(e) {
+    if (this._infoElementVisible && this._infoElement.style.opacity == 1) {
+      this._infoElement.style.opacity = 0;
+      this._infoElementVisible = false;
+    }
+    this._map._isTouched = false;
+    
+  }
+
+
   registerHandlers() {
     // Проверка на зажатую кнопку Ctrl/Cmd
     window.addEventListener("keydown", e => this._scrollButtonDown(e));
     window.addEventListener("keyup", e => this._scrollButtonUp(e));
-    window.addEventListener("scroll", e => this._scrollWindow(e));
+    if (!this._isTouchDevice) {
+      // Показ шторки на Desktop версии
+      window.addEventListener("scroll", e => this._scrollWindow(e));
+
+    } else {
+      // Показ шторки на мобильной версии
+      this._mapSection.children.map.addEventListener("touchstart", e => this._onTouchStartMap(e));
+      this._mapSection.children.map.addEventListener("touchmove", e => this._onTouchMoveMap(e));
+      window.addEventListener("touchend", e => this._onTouchEndMap(e));
+    }
     // После скролла с наведением на карту возвращаем длину анимации
     this._infoElement.addEventListener("transitionend", e => this._transitionEnd(e));
+
+
   }
 }
-
-
-/**
- * Включение и отключение автоматического скролла для улучшения навигации по
- * странице
- * @param {DOMElement} mapSection Контейнер карты и её управления
- * @param {ymaps.Map} map Инстанс карты
- */
-function controlMapScroll(mapSection, map) {
-
-  /**
-   * При таче на карту / элементы управления включаем драг карты
-   * @param {Event} e Событие на начало тача
-   */
-  function onTouchStartMap(e) {
-    map.isTouchMoved = false;
-  }
-
-  /**
-   * Если тач карты был с движением, пример скролл страницы, то ставим флаг
-   * @param {Event} e Событие движения при таче
-   */
-  function onTouchMoveMap(e) {
-    map.isTouchMoved = true;
-  }
-
-  /**
-   * Если тач карты был с движением, то не включаем движение карты, или включаем драг
-   * @param {Event} e Событие движения при таче
-   */
-  function onTouchEndMapDragEnable(e) {
-    if (
-      !map.isTouchMoved
-      && !map.behaviors.isEnabled("drag")
-      ) {
-      map.behaviors.enable("drag");
-    }
-  }
-  
-  /**
-   * Если тач был вне карты или кнопок фильтрации, то отключаем драг
-   * @param {Event} e Событие тача вне карты
-   */
-  function onTouchEndMapDragDisable(e) {
-    if (
-      ![...mapSection.querySelectorAll(".control"), mapSection.children.map]
-        .some(c => c.contains(e.target))
-      && map.behaviors.isEnabled("drag")
-    ) {
-      map.behaviors.disable("drag");
-    }
-  }
-
-    // Показ уведомления, если пользователь скроллит страницу с ховером на карту
-    document.addEventListener("scroll", function(){
-      if(mapSection.children.map.matches(":hover")) {
-  
-      }
-    })
-
-      // mapSection.children.map.addEventListener("touchstart", onTouchStartMap);
-  // mapSection.children.map.addEventListener("touchmove", onTouchMoveMap);
-  // mapSection.children.map.addEventListener("touchend", onTouchEndMapDragEnable);
-  
-  
-
-  // for (let e of mapSection.children) {
-  //   e.addEventListener("click", onClickMapScrollEnable);
-  // }
-
-
-
-  // // Отключаем скролл зум, если клик произошёл вне карты
-  // document.body.addEventListener("click", onClickMapScrollDisable);
-  
-  // // Если клик или тач произошёл вне карты, то отключаем зум
-  // document.body.addEventListener("touchend", onTouchEndMapDragDisable);
-} 
