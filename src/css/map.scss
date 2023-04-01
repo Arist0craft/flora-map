@@ -390,3 +390,32 @@ button[data-type="soon"].control.active {
     font-size: calc(16px * 0.8);
   }
 }
+
+.map-scroll-info {
+  grid-area: 1/1/4/3;
+  z-index: 2;
+  text-align: center;
+  background-color: rgba(0,0,0,.45);
+  transition: opacity ease-in-out;
+  -webkit-transition: opacity ease-in-out;
+  -o-transition: opacity ease-in-out;
+  pointer-events: none;
+  opacity: 0;
+  
+  @include mobile {
+    grid-area: 1/1/2/2;
+  }
+}
+
+.map-scroll-info-text {
+  position: relative;
+  top: 50%;
+  margin: 0;
+  color: white;
+  font-family: "Nunito";
+  font-size: calc(36px * $desktopCoeff);
+
+  @include mobile {
+    font-size: calc(20px * $mobileCoeff);
+  }
+}
