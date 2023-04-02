@@ -65,19 +65,20 @@ export default class ScrollControl {
    * @param {Event} e Событие скролла
    */
   _scrollWindow(e) {
-    const timeOutCallback = function() {
-      if(this._infoElement.style.opacity == 1) {
+    const timeOutCallback = () => {
+      if(this._infoElementVisible) {
         this._infoElement.style.opacity = 0;
         this._infoElementVisible = false;
       }
     }
 
     window.clearTimeout(this._scrollingEndCallback);
-    if(this._mapSection.matches(":hover") && !this._isScrollButtonPressed && !this._infoElementVisible) {
+
+    if(this._mapSection.matches(":hover") && !this._isScrollButtonPressed) {
       this._infoElementVisible = true;
       this._infoElement.style.opacity = 1;
-      this._infoElement.style.transitionDuration = "0.3s";
-      this._scrollingEndCallback = setTimeout(timeOutCallback.bind(this), 1000);
+      this._infoElement.style.transitionDuration = "0.5s";
+      this._scrollingEndCallback = setTimeout(timeOutCallback, 66);
     }
   }
 
@@ -86,7 +87,7 @@ export default class ScrollControl {
    * @param {Event} e Событие окончания анимации
    */
   _transitionEnd(e) {
-    if (this._infoElement.style.transitionDuration == "0.3s") {
+    if (this._infoElement.style.transitionDuration == "0.5s") {
       this._infoElement.style.transitionDuration = "0.8s";
     }
   }
@@ -116,7 +117,7 @@ export default class ScrollControl {
     if(this._map._isTouched && !this._infoElementVisible) {
       this._infoElementVisible = true;
       this._infoElement.style.opacity = 1;
-      this._infoElement.style.transitionDuration = "0.3s";
+      this._infoElement.style.transitionDuration = "0.5s";
     }
   }
 
