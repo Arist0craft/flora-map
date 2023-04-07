@@ -4,3 +4,5 @@ dist/css/
 **/*.zip
 .vscode/
 .idea/
+.code-workspace
+.DS_Store
